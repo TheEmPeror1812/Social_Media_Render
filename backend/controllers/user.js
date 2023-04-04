@@ -14,7 +14,6 @@ exports.register = async (req, res) => {
         .status(400)
         .json({ success: false, message: "User already exists" });
     }
-    
 
     const myCloud = await cloudinary.v2.uploader.upload(avatar, {
       folder: "avatars",
@@ -26,7 +25,6 @@ exports.register = async (req, res) => {
       password,
       avatar: { public_id: myCloud.public_id, url: myCloud.secure_url },
     });
-    console.log(myCloud.public_id,myCloud.secure_url)
 
     const token = await user.generateToken();
 
@@ -43,7 +41,7 @@ exports.register = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error Occurred in backend"+error.message,
+      message: error.message,
     });
   }
 };
